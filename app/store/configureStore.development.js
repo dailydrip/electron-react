@@ -4,13 +4,16 @@ import { hashHistory } from 'react-router';
 import { routerMiddleware, push } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
-import * as counterActions from '../actions/counter';
-import type { counterStateType } from '../reducers/counter';
+import * as searcherActions from '../actions/searcher';
+import Immutable from 'immutable'
+import Pokemon from '../models/Pokemon'
 
-export default (initialState: ?counterStateType) => {
+export default () => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
+
+  var initialState = Immutable.fromJS({ pokemon: new Pokemon(), loading: false, error: '' })
 
   // Thunk Middleware
   middleware.push(thunk);
@@ -28,7 +31,7 @@ export default (initialState: ?counterStateType) => {
 
   // Redux DevTools Configuration
   const actionCreators = {
-    ...counterActions,
+    ...searcherActions,
     push,
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose

@@ -9,8 +9,9 @@ export default class Home extends Component {
     return (
       <div>
         <div className={styles.container} data-tid="container">
-          <h2>Home</h2>
-          <Link to="/counter">to Counter</Link>
+          <img src="../img/pokemon_logo.png" />
+          <h2>Pokemon Searcher</h2>
+          <Link to="/searcher">ENTER</Link>
         </div>
       </div>
     );
