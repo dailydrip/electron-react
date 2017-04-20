@@ -5,6 +5,12 @@ import MenuBuilder from './menu';
 
 let mainWindow = null;
 
+const path = require('path')
+const electron = require('electron')
+const Tray = electron.Tray
+
+let appIcon = null
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -37,10 +43,21 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+
+  if (appIcon) appIcon.destroy()
 });
 
+function putAppOnTray(){
+  const iconName = 'pokemon_icon.png'
+  const iconPath = path.join("./img", iconName)
+  appIcon = new Tray(iconPath)
+  appIcon.setToolTip('Pokemon Searcher in the tray.')
+}
 
 app.on('ready', async () => {
+
+  putAppOnTray()
+
   if (process.env.NODE_ENV === 'development') {
     await installExtensions();
   }
