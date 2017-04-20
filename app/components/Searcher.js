@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import styles from './Searcher.css';
 
 const clipboard = require('electron').clipboard
+const ipc = require('electron').ipcRenderer
 
 class Searcher extends Component {
 
@@ -24,6 +25,10 @@ class Searcher extends Component {
     const { pokemon } = this.props;
     var text = "Name: " + pokemon.name + " Weight: " + pokemon.weight + "Height: " + pokemon.height
     clipboard.writeText(text)
+  }
+
+  printToPDF(){
+    ipc.send('print-to-pdf')
   }
 
   handlePokemonName(event){
@@ -56,6 +61,10 @@ class Searcher extends Component {
 
           <button className={styles.btnCopy} onClick={this.copyToClipboard}>
             <i className="fa fa-clipboard" />COPY
+          </button>
+
+          <button className={styles.btnCopy} onClick={this.printToPDF}>
+            <i className="fa fa-print" />PRINT
           </button>
         </div>
         <div>{loadingGif}</div>
