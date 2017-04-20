@@ -3,18 +3,27 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import styles from './Searcher.css';
 
+const clipboard = require('electron').clipboard
+
 class Searcher extends Component {
 
   constructor(props) {
     super(props);
     this.getPokemon = this.getPokemon.bind(this);
     this.handlePokemonName = this.handlePokemonName.bind(this)
+    this.copyToClipboard = this.copyToClipboard.bind(this)
     this.state = {pokemonName: ''}
   }
 
   getPokemon(){
     this.props.setLoading()
     this.props.fetchPokemon(this.state.pokemonName)
+  }
+
+  copyToClipboard(){
+    const { pokemon } = this.props;
+    var text = "Name: " + pokemon.name + " Weight: " + pokemon.weight + "Height: " + pokemon.height
+    clipboard.writeText(text)
   }
 
   handlePokemonName(event){
@@ -43,6 +52,10 @@ class Searcher extends Component {
           <input className="inputPokemon" type="text" value={this.state.pokemonName} onChange={this.handlePokemonName} />
           <button className={styles.btn} onClick={this.getPokemon}>
             <i className="fa fa-search" />SEARCH
+          </button>
+
+          <button className={styles.btnCopy} onClick={this.copyToClipboard}>
+            <i className="fa fa-clipboard" />COPY
           </button>
         </div>
         <div>{loadingGif}</div>
